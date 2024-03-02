@@ -37,21 +37,6 @@ const HomeScreen = () => {
     mutationFn: () => postCoin(1),
   });
 
-  // React.useEffect(() => {
-  //   if (coins !== undefined) {
-  //     let clonedData: any[] = [];
-  //     coins.forEach((el: any, index: number) => {
-  //       clonedData.push({
-  //         name: el.name,
-  //         id: `id-${el.name}-${index}`,
-  //       });
-  //     });
-  //     setCoinNameList(clonedData);
-  //     console.log('ㅇㄹㅇㄹㅇㄹ');
-  //     console.log(clonedData);
-  //   }
-  // }, [isLoading, isError, isSuccess, coins]);
-
   const handleSubmitSuccess = () => {
     queryClient.invalidateQueries({
       queryKey: ['get-coins'],
@@ -89,29 +74,15 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       {isLoading && (
-        <ActivityIndicator
-          size={'large'}
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            backgroundColor: '#FFF',
-          }}
-        />
+        <ActivityIndicator size={'large'} style={styles.indicator} />
       )}
-      {/* <Text>HomeScreen</Text> */}
+
       <FlatList
         data={coins}
         renderItem={renderList}
         keyExtractor={keyExtractor}
         style={styles.listStyle}
       />
-      {/* <TouchableOpacity
-        onPress={() => {
-          postCoinMutation();
-        }}>
-        <Text>코인 수정하기</Text>
-      </TouchableOpacity> */}
     </SafeAreaView>
   );
 };
@@ -121,5 +92,11 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   listStyle: {
     flex: 1,
+  },
+  indicator: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#FFF',
   },
 });
