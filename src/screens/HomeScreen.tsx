@@ -16,15 +16,10 @@ const HomeScreen = () => {
   const queryClient = useQueryClient();
   const navigation = useNavigation();
 
-  const [coinNameList, setCoinNameList] = useState<
-    {name: string; id: number}[]
-  >([]);
-
   const {
     data: coins,
     isLoading,
     isError,
-    isSuccess,
     refetch,
   } = useQuery({
     queryKey: ['get-coins'],
@@ -32,18 +27,18 @@ const HomeScreen = () => {
     staleTime: 5 * 60 * 1000,
   });
 
-  const {mutate: postCoinMutation} = useMutation({
-    mutationKey: ['post-coin'],
-    mutationFn: () => postCoin(1),
-  });
+  // const {mutate: postCoinMutation} = useMutation({
+  //   mutationKey: ['post-coin'],
+  //   mutationFn: () => postCoin(1),
+  // });
 
-  const handleSubmitSuccess = () => {
-    queryClient.invalidateQueries({
-      queryKey: ['get-coins'],
-    });
+  // const handleSubmitSuccess = () => {
+  //   queryClient.invalidateQueries({
+  //     queryKey: ['get-coins'],
+  //   });
 
-    navigation.goBack();
-  };
+  //   navigation.goBack();
+  // };
 
   const keyExtractor = (item: ICoin) => {
     return item.id;
