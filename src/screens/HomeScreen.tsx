@@ -16,16 +16,16 @@ const HomeScreen = () => {
   const queryClient = useQueryClient();
   const navigation = useNavigation();
 
-  const {
-    data: coins,
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery({
-    queryKey: ['get-coins'],
-    queryFn: getCoins,
-    staleTime: 5 * 60 * 1000,
-  });
+  // const {
+  //   data: coins,
+  //   isLoading,
+  //   isError,
+  //   refetch,
+  // } = useQuery({
+  //   queryKey: ['get-coins'],
+  //   queryFn: getCoins,
+  //   staleTime: 5 * 60 * 1000,
+  // });
 
   // const {mutate: postCoinMutation} = useMutation({
   //   mutationKey: ['post-coin'],
@@ -52,23 +52,23 @@ const HomeScreen = () => {
     );
   };
 
-  if (isError) {
-    return (
-      <View>
-        <Text>에러가 발생했습니다</Text>
-        <TouchableOpacity
-          onPress={() => {
-            refetch();
-          }}>
-          <Text>다시 로드하기</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+  // if (isError) {
+  //   return (
+  //     <View>
+  //       <Text>에러가 발생했습니다</Text>
+  //       <TouchableOpacity
+  //         onPress={() => {
+  //           refetch();
+  //         }}>
+  //         <Text>다시 로드하기</Text>
+  //       </TouchableOpacity>
+  //     </View>
+  //   );
+  // }
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      {isLoading && (
+      {/* {isLoading && (
         <ActivityIndicator size={'large'} style={styles.indicator} />
       )}
 
@@ -77,7 +77,7 @@ const HomeScreen = () => {
         renderItem={renderList}
         keyExtractor={keyExtractor}
         style={styles.listStyle}
-      />
+      /> */}
     </SafeAreaView>
   );
 };
