@@ -9,8 +9,21 @@ export interface ICharacter {
   characterImage: string;
 }
 
-export const getAllCharacters = async (): Promise<ICharacter[]> => {
-  const {data} = await apiClient.get<ICharacter[]>('character');
+export interface ICharacters {
+  info: {
+    count: number;
+    next: string;
+    pages: number;
+  };
+  results: ICharacter[];
+}
+
+export const getAllCharacters = async (name?: string): Promise<ICharacters> => {
+  console.log('시작이되나?');
+  const endPoint = name !== undefined ? `character/?name=${name}` : 'character';
+  const {data} = await apiClient.get<ICharacters>(endPoint);
+  console.log(data);
+  console.log('안돌아가나?');
   return data;
 };
 
