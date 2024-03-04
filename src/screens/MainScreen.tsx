@@ -13,7 +13,7 @@ const MainScreen = () => {
       initialRouteName="MainStack"
       screenOptions={{headerShown: false}}>
       <RootStack.Screen name="BottomTab" component={BottomTabStackNavigator} />
-      {/* <RootStack.Screen name="MainStack" component={MainStackNavigator} /> */}
+      <RootStack.Screen name="MainStack" component={MainStackNavigator} />
     </RootStack.Navigator>
   );
 };
