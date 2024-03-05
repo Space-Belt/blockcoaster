@@ -12,8 +12,8 @@ const MainScreen = () => {
     <RootStack.Navigator
       initialRouteName="MainStack"
       screenOptions={{headerShown: false}}>
+      {/* <RootStack.Screen name="MainStack" component={MainStackNavigator} /> */}
       <RootStack.Screen name="BottomTab" component={BottomTabStackNavigator} />
-      <RootStack.Screen name="MainStack" component={MainStackNavigator} />
     </RootStack.Navigator>
   );
 };
