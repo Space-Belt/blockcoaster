@@ -7,6 +7,8 @@ import AddTaskScreen from '../screens/AddTaskScreen';
 import FlatListScreen from '../screens/FlatListScreen';
 import SectionListScreen from '../screens/SectionListScreen';
 import HomeScreen from '../screens/HomeScreen';
+import CharacterDetailScreen from '../screens/CharacterDetailScreen';
+import {IdContext} from '../context/IdContext';
 
 const MainStack = createStackNavigator();
 
@@ -15,7 +17,7 @@ const MainStackNavigator = () => {
     <MainStack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="MainScreen">
-      <MainStack.Screen name="HomeScreen" component={HomeScreen} />
+      <MainStack.Screen name="MainScreens" component={CharacterDetailScreen} />
     </MainStack.Navigator>
   );
 };
