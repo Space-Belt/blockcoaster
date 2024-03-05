@@ -1,3 +1,4 @@
+import {ImageSourcePropType} from 'react-native';
 import apiClient from './apiClient';
 
 export interface ICharacter {
@@ -5,8 +6,8 @@ export interface ICharacter {
   name: string;
   status: string;
   species: string;
-  gender: string;
-  characterImage: string;
+  gender?: string;
+  image: string;
 }
 
 export interface ICharacters {
@@ -18,9 +19,15 @@ export interface ICharacters {
   results: ICharacter[];
 }
 
-export const getAllCharacters = async (name?: string): Promise<ICharacters> => {
+export const getAllCharacters = async (
+  page: number,
+  name: string,
+): Promise<ICharacters> => {
   console.log('시작이되나?');
-  const endPoint = name !== undefined ? `character/?name=${name}` : 'character';
+  const endPoint =
+    name !== ''
+      ? `character/?page=${page}&name=${name}`
+      : `character/?page=${page}`;
   const {data} = await apiClient.get<ICharacters>(endPoint);
   console.log(data);
   console.log('안돌아가나?');
