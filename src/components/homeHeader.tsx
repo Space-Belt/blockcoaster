@@ -33,6 +33,7 @@ export default HomeHeader;
 
 const styles = StyleSheet.create({
   headerWrapper: {
+    paddingTop: 10,
     flexDirection: 'row',
   },
   imgWrapper: {

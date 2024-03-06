@@ -136,14 +136,13 @@ const HomeScreen = () => {
   }, [maxPage]);
 
   useEffect(() => {
-    console.log('돕니다요');
     refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firstPage]);
 
   useEffect(() => {
     let clonedCharacter: ICharacter[] = [...characterLists];
-    console.log('캐릭터들이 들어왔습니다.');
+
     if (characters !== undefined) {
       let tempMaxPage = characters.info.pages;
       characters.results.forEach(el => {
