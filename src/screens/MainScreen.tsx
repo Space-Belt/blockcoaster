@@ -3,7 +3,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import MainStackNavigator from '../navigations/MainStackNavigator';
 import BottomTabStackNavigator from '../navigations/BottomTabStackNavigator';
-import {IdContext} from '../context/IdContext';
 
 // 앱 네비게이션의 루트가 된다는 의미로 RootStack
 const RootStack = createStackNavigator();

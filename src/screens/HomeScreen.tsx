@@ -29,7 +29,8 @@ const windowWidth = Dimensions.get('window').width;
 const imgWidth = (windowWidth - 90) / 2;
 const cardWidth = (windowWidth - 50) / 2;
 const HomeScreen = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  // const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation();
 
   const [maxPage, setMaxPage] = useState<number>(1);
   const [firstPage, setFirstPage] = useState<number>(1);
@@ -54,7 +55,10 @@ const HomeScreen = () => {
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('MainStack', {
-            id: item.id,
+            screen: 'CharacterDetail',
+            params: {
+              id: item.id,
+            },
           });
         }}>
         <View style={[styles.renderListStyle, tempWidth]}>
