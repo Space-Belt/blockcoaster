@@ -6,8 +6,14 @@ export interface ICharacter {
   name: string;
   status: string;
   species: string;
-  gender?: string;
   image: string;
+}
+export interface ICharacterDetail extends ICharacter {
+  gender: string;
+  location: {
+    name: string;
+    url: string;
+  };
 }
 
 export interface ICharacters {
@@ -23,15 +29,6 @@ export const getAllCharacters = async (
   page: number,
   name: string,
 ): Promise<ICharacters> => {
-  // const endPoint =
-  //   name !== ''
-  //     ? `character/?page=${page}&name=${name}`
-  //     : `character/?page=${page}`;
-  // const {data} = await apiClient.get<ICharacters>(endPoint);
-
-  // return data;
-  console.log(page);
-  console.log(name);
   try {
     const endPoint =
       name !== ''
@@ -46,9 +43,18 @@ export const getAllCharacters = async (
   }
 };
 
-export const getCharacterById = async (id: number): Promise<ICharacter> => {
-  const {data} = await apiClient.get<ICharacter>(`character/?id=${id}`);
-  return data;
+export const getCharacterById = async (
+  id: number,
+): Promise<ICharacterDetail> => {
+  try {
+    console.log('돌아');
+    const {data} = await apiClient.get<ICharacterDetail>(`character/${id}`);
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching characters:', error);
+    throw error;
+  }
 };
 
 // {
