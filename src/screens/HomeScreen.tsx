@@ -182,10 +182,6 @@ const HomeScreen = () => {
     console.log(isSuccess);
   }, [isError, isLoading, isSuccess]);
 
-  // if (isLoading) {
-  //   return <Indicator />;
-  // }
-
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.container}>
@@ -197,12 +193,12 @@ const HomeScreen = () => {
 
         {onError ? (
           isLoading ? (
+            <Indicator />
+          ) : (
             <NoData
               handleRetry={handleSearchBySearchTerm}
               handleCancel={handleNoDataCancel}
             />
-          ) : (
-            <Indicator />
           )
         ) : (
           <View style={styles.listContainer}>
