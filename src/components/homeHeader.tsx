@@ -5,6 +5,7 @@ import search from '../assets/images/search.png';
 import SearchIcon from '../assets/svg/searchIcon.svg';
 
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import FastImage from 'react-native-fast-image';
 
 type Props = {
   handleInputChange: (...args: any[]) => void;
@@ -15,7 +16,7 @@ type Props = {
 const HomeHeader = (props: Props) => {
   return (
     <View style={styles.headerWrapper}>
-      <Image source={mortie} style={styles.imgWrapper} />
+      <FastImage source={mortie} style={styles.imgWrapper} />
       <View style={styles.inputWrapper}>
         <TextInput
           value={props.searchTerm}
