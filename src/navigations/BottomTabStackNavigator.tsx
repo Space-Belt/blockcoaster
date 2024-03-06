@@ -9,32 +9,14 @@ import setting from '../assets/images/setting.png';
 
 const BottomTab = createBottomTabNavigator();
 
-const tabBarList = [
-  {
-    icon: 'homeIcon',
-    name: 'Home',
-    component: 'HomeScreen',
-  },
-  {
-    icon: 'location',
-    name: 'Locations',
-    component: '',
-  },
-  {
-    icon: 'episode',
-    name: 'Episodes',
-    component: '',
-  },
-  {
-    icon: 'setting',
-    name: 'Settings',
-    component: '',
-  },
-];
-
 const BottomTabStackNavigator = () => {
   return (
-    <BottomTab.Navigator screenOptions={{headerShown: false}}>
+    <BottomTab.Navigator
+      screenOptions={{
+        headerShown: false,
+
+        tabBarStyle: {height: 55, paddingBottom: 5},
+      }}>
       <BottomTab.Screen
         name="home"
         component={HomeScreen}
@@ -156,6 +138,8 @@ const styles = StyleSheet.create({
   bottomIcon: {
     width: 25,
     height: 25,
+
+    paddingTop: 10,
     resizeMode: 'center',
   },
 });
