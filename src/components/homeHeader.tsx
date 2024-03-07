@@ -21,10 +21,11 @@ const HomeHeader = (props: Props) => {
           value={props.searchTerm}
           onChangeText={props.handleInputChange}
           style={styles.textInput}
+          placeholderTextColor={'#CCCCCC'}
           placeholder="Please enter a searchTerm"
         />
         <TouchableOpacity onPress={props.handleSearchBySearchTerm}>
-          <SearchIcon stroke={'#000'} />
+          <SearchIcon stroke={'#fff'} />
         </TouchableOpacity>
       </View>
     </View>
@@ -56,5 +57,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     fontWeight: '700',
+    color: '#fff',
   },
 });
