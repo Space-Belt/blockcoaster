@@ -227,6 +227,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    backgroundColor: '#0A0A0A',
   },
   noData: {
     flex: 1,
@@ -242,6 +243,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: 20,
     marginBottom: 15,
+    color: '#fff',
   },
 
   listSection: {
