@@ -91,7 +91,7 @@ const HomeScreen = () => {
     refetch,
   } = useQuery({
     queryKey: ['get-characters'],
-    queryFn: () => getAllCharacters(firstPage, searchTerm),
+    queryFn: () => getAllCharacters(searchTerm),
     staleTime: 5 * 60 * 1000,
   });
 
@@ -144,8 +144,8 @@ const HomeScreen = () => {
     let clonedCharacter: ICharacter[] = [...characterLists];
 
     if (characters !== undefined) {
-      let tempMaxPage = characters.info.pages;
-      characters.results.forEach(el => {
+      // let tempMaxPage = characters.info.pages;
+      characters.forEach(el => {
         clonedCharacter.push({
           id: el.id,
           name: el.name,
@@ -155,7 +155,7 @@ const HomeScreen = () => {
         });
       });
       setCharacterLists(clonedCharacter);
-      setMaxPage(tempMaxPage);
+      // setMaxPage(tempMaxPage);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [characters]);

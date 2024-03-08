@@ -1,4 +1,3 @@
-import {ImageSourcePropType} from 'react-native';
 import apiClient from './apiClient';
 
 export interface ICharacter {
@@ -16,31 +15,77 @@ export interface ICharacterDetail extends ICharacter {
   };
 }
 
+export interface ICharacterInterface {
+  id: number;
+  name: string;
+  status: string;
+  species: string;
+  type: string;
+  gender: string;
+  origin: {
+    name: string;
+    url: string;
+  };
+  location: {
+    name: string;
+    url: string;
+  };
+  image: string;
+  episode: string[];
+  url: string;
+  created: string;
+}
 export interface ICharacters {
   info: {
     count: number;
-    next: string;
     pages: number;
+    next: string;
+    prev: string;
   };
-  results: ICharacter[];
+  results: ICharacterInterface[];
 }
 
 export const getAllCharacters = async (
-  page: number,
   name: string,
-): Promise<ICharacters> => {
-  try {
-    const endPoint =
-      name !== ''
-        ? `character/?page=${page}&name=${name}`
-        : `character/?page=${page}`;
-    const {data} = await apiClient.get<ICharacters>(endPoint);
+): Promise<ICharacterInterface[]> => {
+  // V1
+  // try {
+  // const endPoint =
+  //   name !== ''
+  //     ? `character/?page=${page}&name=${name}`
+  //     : `character/?page=${page}`;
+  // const {data} = await apiClient.get<ICharacters>(endPoint);
 
-    return data;
-  } catch (error) {
-    console.error('Error fetching characters:', error);
-    throw error;
+  // return data;
+  // } catch (error) {
+  //   console.error('Error fetching characters:', error);
+  //   throw error;
+  // }
+
+  // V2
+  const endPoint = name !== '' ? `/character/?name=${name}` : '/character';
+  // const {data} = await apiClient.get<ICharacters>(endPoint);
+  const forMaxPage = (await apiClient.get<ICharacters>(endPoint)).data;
+
+  console.log(endPoint);
+
+  console.log('dfdf');
+  console.log(forMaxPage);
+  const tempData = [];
+  const maxPage = forMaxPage.info.pages;
+  for (let i = 1; i <= maxPage; i++) {
+    if (name !== '') {
+      const {data} = await apiClient.get<ICharacters>(
+        `/character/?page=${i}&name=${name}`,
+      );
+      tempData.push(...data.results);
+    } else {
+      const {data} = await apiClient.get<ICharacters>(`/character/?page=${i}`);
+      tempData.push(...data.results);
+    }
   }
+
+  return tempData;
 };
 
 export const getCharacterById = async (
