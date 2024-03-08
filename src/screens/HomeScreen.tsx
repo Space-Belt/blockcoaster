@@ -211,8 +211,8 @@ const HomeScreen = () => {
               contentContainerStyle={styles.contentStyle}
               numColumns={2}
               columnWrapperStyle={styles.columnGap}
-              onEndReachedThreshold={1}
-              onEndReached={onEndReached}
+              // onEndReachedThreshold={1}
+              // onEndReached={onEndReached}
               ListFooterComponent={isLoading ? <Indicator /> : <></>}
             />
           </View>
