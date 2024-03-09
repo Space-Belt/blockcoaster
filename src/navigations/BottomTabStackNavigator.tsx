@@ -6,6 +6,7 @@ import Home from '../assets/svg/home.svg';
 import Location from '../assets/svg/location.svg';
 import Episode from '../assets/svg/episode.svg';
 import Setting from '../assets/svg/setting.svg';
+import LearnAnimationScreen from '../screens/LearnAnimationScreen';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -38,7 +39,7 @@ const BottomTabStackNavigator = () => {
       />
       <BottomTab.Screen
         name="location"
-        component={HomeScreen}
+        component={LearnAnimationScreen}
         options={{
           tabBarLabel: 'Locations',
           tabBarActiveTintColor: '#fff',
@@ -52,7 +53,7 @@ const BottomTabStackNavigator = () => {
       />
       <BottomTab.Screen
         name="episode"
-        component={HomeScreen}
+        component={LearnAnimationScreen}
         options={{
           tabBarLabel: 'Episodes',
           tabBarActiveTintColor: '#fff',

@@ -24,9 +24,6 @@ const NoData = (props: Props) => {
           찾으시는 데이터가 존재하지 않습니다.
         </Text>
         <View style={styles.buttonWrapper}>
-          {/* <TouchableOpacity onPress={props.handleRetry}>
-            <Text style={styles.leftbutton}>취소</Text>
-          </TouchableOpacity> */}
           <TouchableOpacity onPress={props.handleCancel}>
             <Text style={styles.rightButton}>취소</Text>
           </TouchableOpacity>
