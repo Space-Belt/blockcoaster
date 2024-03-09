@@ -48,23 +48,8 @@ export interface ICharacters {
 export const getAllCharacters = async (
   name: string,
 ): Promise<ICharacterInterface[]> => {
-  // V1
-  // try {
-  // const endPoint =
-  //   name !== ''
-  //     ? `character/?page=${page}&name=${name}`
-  //     : `character/?page=${page}`;
-  // const {data} = await apiClient.get<ICharacters>(endPoint);
-
-  // return data;
-  // } catch (error) {
-  //   console.error('Error fetching characters:', error);
-  //   throw error;
-  // }
-
   // V2
   const endPoint = name !== '' ? `/character/?name=${name}` : '/character';
-  // const {data} = await apiClient.get<ICharacters>(endPoint);
   const forMaxPage = (await apiClient.get<ICharacters>(endPoint)).data;
 
   console.log(endPoint);
@@ -101,28 +86,3 @@ export const getCharacterById = async (
     throw error;
   }
 };
-
-// {
-//   "id": 1,
-//   "name": "Rick Sanchez",
-//   "status": "Alive",
-//   "species": "Human",
-//   "type": "",
-//   "gender": "Male",
-//   "origin": {
-//     "name": "Earth",
-//     "url": "https://rickandmortyapi.com/api/location/1"
-//   },
-//   "location": {
-//     "name": "Earth",
-//     "url": "https://rickandmortyapi.com/api/location/20"
-//   },
-//   "image": "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-//   "episode": [
-//     "https://rickandmortyapi.com/api/episode/1",
-//     "https://rickandmortyapi.com/api/episode/2",
-//     // ...
-//   ],
-//   "url": "https://rickandmortyapi.com/api/character/1",
-//   "created": "2017-11-04T18:48:46.250Z"
-// },
