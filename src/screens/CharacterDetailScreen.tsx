@@ -29,18 +29,12 @@ const windowWidths = Dimensions.get('window').width;
 
 const tempId = {id: 0};
 
-// RouteProp<ParamListBase>'
-//   'Omit<NavigationHelpersCommon<RoutProps, StackNavigationState<RoutProps>>,
-
 const CharacterDetailScreen = () => {
-  // const route = useRoute<RouteProp<ParamListBase>>();
   const route = useRoute();
   const navigation = useNavigation();
 
   const params = route.params;
   const {id} = params ?? tempId;
-
-  // const {id} = params ?? tempId;
 
   const [characterData, setCharacterData] = useState<ICharacterDetail>();
 

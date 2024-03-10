@@ -30,7 +30,6 @@ const windowWidth = Dimensions.get('window').width;
 const imgWidth = (windowWidth - 90) / 2;
 const cardWidth = (windowWidth - 50) / 2;
 const HomeScreen = () => {
-  // const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const navigation = useNavigation();
 
   const keyExtractor = (item: ICharacter, index: number) => {
@@ -113,20 +112,6 @@ const HomeScreen = () => {
     refetch();
   };
 
-  // const getItemLayout = useCallback(
-  //   (data, index: number) => ({
-  //     length: ITEM_HEIGHT,
-  //     offset: ITEM_HEIGHT * index,
-  //     index,
-  //   }),
-  //   [],
-  // );
-
-  // useEffect(() => {
-  //   refetch();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [firstPage]);
-
   useEffect(() => {
     let clonedCharacter: ICharacter[] = [...characterLists];
 
@@ -141,7 +126,6 @@ const HomeScreen = () => {
         });
       });
       setCharacterLists(clonedCharacter);
-      // setMaxPage(tempMaxPage);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [characters]);
@@ -219,8 +203,6 @@ const styles = StyleSheet.create({
   indicator: {
     position: 'absolute',
     flex: 1,
-    // width: '100%',
-    // height: '100%',
     backgroundColor: '#FFF',
   },
   listContainer: {

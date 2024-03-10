@@ -45,7 +45,6 @@ const LearnAnimationScreen = () => {
         <Text style={styles.headerText}>Learn Animation</Text>
         <View style={styles.rickContainer}>
           <View style={styles.countMoveBox}>
-            {/* <Text style={styles.numberBoxText}>{percentage.value}</Text> */}
             <TextInput
               value={moveCount}
               onChangeText={handleTextInput}
