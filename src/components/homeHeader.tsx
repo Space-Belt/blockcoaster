@@ -13,14 +13,18 @@ type Props = {
   searchTerm: string;
 };
 
-const HomeHeader = (props: Props) => {
+const HomeHeader = ({
+  handleInputChange,
+  handleSearchBySearchTerm,
+  searchTerm,
+}: Props) => {
   return (
     <View style={styles.headerWrapper}>
       <FastImage source={mortie} style={styles.imgWrapper} />
       <View style={styles.inputWrapper}>
         <TextInput
-          value={props.searchTerm}
-          onChangeText={props.handleInputChange}
+          value={searchTerm}
+          onChangeText={handleInputChange}
           style={styles.textInput}
           placeholderTextColor={'#CCCCCC'}
           placeholder="Please enter a searchTerm"
