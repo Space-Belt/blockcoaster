@@ -29,18 +29,12 @@ const windowWidths = Dimensions.get('window').width;
 
 const tempId = {id: 0};
 
-// RouteProp<ParamListBase>'
-//   'Omit<NavigationHelpersCommon<RoutProps, StackNavigationState<RoutProps>>,
-
 const CharacterDetailScreen = () => {
-  // const route = useRoute<RouteProp<ParamListBase>>();
   const route = useRoute();
   const navigation = useNavigation();
 
   const params = route.params;
   const {id} = params ?? tempId;
-
-  // const {id} = params ?? tempId;
 
   const [characterData, setCharacterData] = useState<ICharacterDetail>();
 
@@ -110,6 +104,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     width: '100%',
+    backgroundColor: '#0A0A0A',
   },
   imageWrapper: {
     width: windowWidths,
@@ -147,6 +142,7 @@ const styles = StyleSheet.create({
   nameText: {
     fontSize: 24,
     fontWeight: '800',
+    color: '#fff',
   },
   statusWraper: {
     marginTop: 7,
@@ -162,15 +158,18 @@ const styles = StyleSheet.create({
   statusSpeciesText: {
     fontSize: 12,
     fontWeight: '700',
+    color: '#fff',
   },
   genderText: {
     marginTop: 15,
     fontSize: 14,
     fontWeight: '700',
+    color: '#fff',
   },
   locationText: {
     marginTop: 7,
     fontSize: 14,
     fontWeight: '700',
+    color: '#fff',
   },
 });

@@ -20,11 +20,10 @@ const NoData = (props: Props) => {
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.noData}>
         <Image source={lick} style={styles.noDataImg} />
-        <Text>찾으시는 데이터가 존재하지 않습니다.</Text>
+        <Text style={styles.noDataText}>
+          찾으시는 데이터가 존재하지 않습니다.
+        </Text>
         <View style={styles.buttonWrapper}>
-          {/* <TouchableOpacity onPress={props.handleRetry}>
-            <Text style={styles.leftbutton}>취소</Text>
-          </TouchableOpacity> */}
           <TouchableOpacity onPress={props.handleCancel}>
             <Text style={styles.rightButton}>취소</Text>
           </TouchableOpacity>
@@ -51,6 +50,9 @@ const styles = StyleSheet.create({
     height: 50,
     resizeMode: 'center',
   },
+  noDataText: {
+    color: '#fff',
+  },
   buttonWrapper: {
     flexDirection: 'row',
     gap: 5,
@@ -66,5 +68,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderWidth: 1,
     borderRadius: 10,
+    borderColor: '#fff',
+    color: '#fff',
+  },
+  noDataText: {
+    color: '#fff',
   },
 });

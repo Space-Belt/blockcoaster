@@ -2,10 +2,11 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
-import home from '../assets/images/home.png';
-import location from '../assets/images/locations.png';
-import episode from '../assets/images/episodes.png';
-import setting from '../assets/images/setting.png';
+import Home from '../assets/svg/home.svg';
+import Location from '../assets/svg/location.svg';
+import Episode from '../assets/svg/episode.svg';
+import Setting from '../assets/svg/setting.svg';
+import LearnAnimationScreen from '../screens/LearnAnimationScreen';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -15,80 +16,52 @@ const BottomTabStackNavigator = () => {
       screenOptions={{
         headerShown: false,
 
-        tabBarStyle: {height: 55, paddingBottom: 5},
+        tabBarStyle: {
+          height: 55,
+          paddingBottom: 5,
+          backgroundColor: '#141414',
+          borderTopColor: '#141414',
+        },
       }}>
       <BottomTab.Screen
         name="home"
         component={HomeScreen}
         options={{
           tabBarLabel: 'Home',
-          tabBarActiveTintColor: '#000',
+          tabBarActiveTintColor: '#fff',
           tabBarInactiveTintColor: '#C1C1C1',
           title: 'Home',
           // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({focused}) => {
-            return (
-              <Image
-                source={home}
-                style={[
-                  styles.bottomIcon,
-                  // eslint-disable-next-line react-native/no-inline-styles
-                  {
-                    tintColor: focused ? '#000' : '#C1C1C1',
-                  },
-                ]}
-              />
-            );
+            return <Home stroke={focused ? '#fff' : '#C1C1C1C1'} />;
           },
         }}
       />
       <BottomTab.Screen
         name="location"
-        component={HomeScreen}
+        component={LearnAnimationScreen}
         options={{
           tabBarLabel: 'Locations',
-          tabBarActiveTintColor: '#000',
+          tabBarActiveTintColor: '#fff',
           tabBarInactiveTintColor: '#C1C1C1',
           title: 'Locations',
           // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({focused}) => {
-            return (
-              <Image
-                source={location}
-                style={[
-                  styles.bottomIcon,
-                  // eslint-disable-next-line react-native/no-inline-styles
-                  {
-                    tintColor: focused ? '#000' : '#C1C1C1',
-                  },
-                ]}
-              />
-            );
+            return <Location stroke={focused ? '#fff' : '#C1C1C1C1'} />;
           },
         }}
       />
       <BottomTab.Screen
         name="episode"
-        component={HomeScreen}
+        component={LearnAnimationScreen}
         options={{
           tabBarLabel: 'Episodes',
-          tabBarActiveTintColor: '#000',
+          tabBarActiveTintColor: '#fff',
           tabBarInactiveTintColor: '#C1C1C1',
           title: 'Episodes',
           // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({focused}) => {
-            return (
-              <Image
-                source={episode}
-                style={[
-                  styles.bottomIcon,
-                  // eslint-disable-next-line react-native/no-inline-styles
-                  {
-                    tintColor: focused ? '#000' : '#C1C1C1',
-                  },
-                ]}
-              />
-            );
+            return <Episode stroke={focused ? '#fff' : '#C1C1C1C1'} />;
           },
         }}
       />
@@ -97,23 +70,12 @@ const BottomTabStackNavigator = () => {
         component={HomeScreen}
         options={{
           tabBarLabel: 'Settings',
-          tabBarActiveTintColor: '#000',
+          tabBarActiveTintColor: '#fff',
           tabBarInactiveTintColor: '#C1C1C1',
           title: 'Settings',
           // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({focused}) => {
-            return (
-              <Image
-                source={setting}
-                style={[
-                  styles.bottomIcon,
-                  // eslint-disable-next-line react-native/no-inline-styles
-                  {
-                    tintColor: focused ? '#000' : '#C1C1C1',
-                  },
-                ]}
-              />
-            );
+            return <Setting stroke={focused ? '#fff' : '#C1C1C1C1'} />;
           },
         }}
       />

@@ -1,7 +1,9 @@
-import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Image, StyleSheet, TextInput, View} from 'react-native';
 import React from 'react';
 import mortie from '../assets/images/mortie.png';
 import search from '../assets/images/search.png';
+import SearchIcon from '../assets/svg/searchIcon.svg';
+
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 type Props = {
@@ -19,10 +21,11 @@ const HomeHeader = (props: Props) => {
           value={props.searchTerm}
           onChangeText={props.handleInputChange}
           style={styles.textInput}
+          placeholderTextColor={'#CCCCCC'}
           placeholder="Please enter a searchTerm"
         />
         <TouchableOpacity onPress={props.handleSearchBySearchTerm}>
-          <Image source={search} style={styles.searchIcon} />
+          <SearchIcon stroke={'#fff'} />
         </TouchableOpacity>
       </View>
     </View>
@@ -49,11 +52,11 @@ const styles = StyleSheet.create({
   searchIcon: {
     width: 24,
     height: 24,
-    tintColor: '#000',
   },
   textInput: {
     flex: 1,
     fontSize: 16,
     fontWeight: '700',
+    color: '#fff',
   },
 });

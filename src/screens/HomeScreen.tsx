@@ -20,6 +20,7 @@ import NoData from '../components/NoData';
 import HomeHeader from '../components/homeHeader';
 import {debounce} from '../util/debounce';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 export type RootStackParamList = {
   [key: string]: {id: number} | undefined;
@@ -29,11 +30,7 @@ const windowWidth = Dimensions.get('window').width;
 const imgWidth = (windowWidth - 90) / 2;
 const cardWidth = (windowWidth - 50) / 2;
 const HomeScreen = () => {
-  // const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const navigation = useNavigation();
-
-  const [maxPage, setMaxPage] = useState<number>(1);
-  const [firstPage, setFirstPage] = useState<number>(1);
 
   const keyExtractor = (item: ICharacter, index: number) => {
     return `${JSON.stringify(item)}-${index}`;
@@ -62,13 +59,13 @@ const HomeScreen = () => {
           });
         }}>
         <View style={[styles.renderListStyle, tempWidth]}>
-          <Image source={{uri: item.image}} style={styles.cardImgStyle} />
+          <FastImage source={{uri: item.image}} style={styles.cardImgStyle} />
           <Text style={styles.nameText}>
-            {item.name.slice(0, 15)}
+            {item.name.slice(0, 13)}
             {item.name.length > 13 ? '...' : ''}
           </Text>
           <View style={styles.statusSpeciesWrapper}>
-            <Image
+            <FastImage
               source={greenCircle}
               style={[styles.circleStyle, tempStyle]}
             />
@@ -91,15 +88,12 @@ const HomeScreen = () => {
     refetch,
   } = useQuery({
     queryKey: ['get-characters'],
-    queryFn: () => getAllCharacters(firstPage, searchTerm),
+    queryFn: () => getAllCharacters(searchTerm),
     staleTime: 5 * 60 * 1000,
   });
 
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [characterLists, setCharacterLists] = useState<ICharacter[]>([]);
-
-  const [onLoading, setOnLoading] = useState<boolean>(false);
-  const [onError, setOnError] = useState<boolean>(false);
 
   const handleInputChange = useCallback(
     (text: string) => {
@@ -110,42 +104,19 @@ const HomeScreen = () => {
   );
 
   const handleSearchBySearchTerm = () => {
-    setFirstPage(1);
-    setMaxPage(1);
-
     setCharacterLists([]);
-
-    setOnError(false);
-
     refetch();
   };
 
   const handleNoDataCancel = () => {
-    setOnError(false);
     refetch();
   };
-
-  const onEndReached = useCallback(() => {
-    setFirstPage(prev => {
-      if (prev < maxPage) {
-        return prev + 1;
-      } else {
-        return prev;
-      }
-    });
-  }, [maxPage]);
-
-  useEffect(() => {
-    refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [firstPage]);
 
   useEffect(() => {
     let clonedCharacter: ICharacter[] = [...characterLists];
 
     if (characters !== undefined) {
-      let tempMaxPage = characters.info.pages;
-      characters.results.forEach(el => {
+      characters.forEach(el => {
         clonedCharacter.push({
           id: el.id,
           name: el.name,
@@ -155,32 +126,9 @@ const HomeScreen = () => {
         });
       });
       setCharacterLists(clonedCharacter);
-      setMaxPage(tempMaxPage);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [characters]);
-
-  useEffect(() => {
-    if (isError) {
-      setOnError(true);
-      setSearchTerm('');
-    }
-
-    if (isLoading) {
-      setOnError(false);
-      setOnLoading(true);
-    }
-
-    if (isSuccess) {
-      setOnError(false);
-      setOnLoading(false);
-      setSearchTerm('');
-    }
-    console.log('돌쥬?');
-    console.log(isError);
-    console.log(isLoading);
-    console.log(isSuccess);
-  }, [isError, isLoading, isSuccess]);
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -191,29 +139,27 @@ const HomeScreen = () => {
           searchTerm={searchTerm}
         />
 
-        {onError ? (
-          isLoading ? (
-            <Indicator />
-          ) : (
-            <NoData
-              handleRetry={handleSearchBySearchTerm}
-              handleCancel={handleNoDataCancel}
-            />
-          )
+        {isError ? (
+          <NoData
+            handleRetry={handleSearchBySearchTerm}
+            handleCancel={handleNoDataCancel}
+          />
+        ) : isLoading ? (
+          <Indicator />
         ) : (
           <View style={styles.listContainer}>
             <Text style={styles.listHeader}>Characters</Text>
-
             <FlatList
               data={characterLists}
               renderItem={renderList}
+              initialNumToRender={20}
               keyExtractor={(item, index) => keyExtractor(item, index)}
               contentContainerStyle={styles.contentStyle}
               numColumns={2}
               columnWrapperStyle={styles.columnGap}
-              onEndReachedThreshold={1}
-              onEndReached={onEndReached}
-              ListFooterComponent={isLoading ? <Indicator /> : <></>}
+              showsVerticalScrollIndicator={false}
+              maxToRenderPerBatch={6}
+              windowSize={30}
             />
           </View>
         )}
@@ -227,6 +173,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    backgroundColor: '#0A0A0A',
   },
   noData: {
     flex: 1,
@@ -242,6 +189,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: 20,
     marginBottom: 15,
+    color: '#fff',
   },
 
   listSection: {
@@ -254,8 +202,7 @@ const styles = StyleSheet.create({
   },
   indicator: {
     position: 'absolute',
-    width: '100%',
-    height: '100%',
+    flex: 1,
     backgroundColor: '#FFF',
   },
   listContainer: {
@@ -263,16 +210,12 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 
-  flatListWrapper: {
-    // flex: 1,
-  },
+  flatListWrapper: {},
   columnGap: {
     gap: 10,
   },
 
   renderListStyle: {
-    // flex: 1,
-    // width: '50%',
     padding: 10,
     backgroundColor: '#1D1D1B',
     borderRadius: 12,
