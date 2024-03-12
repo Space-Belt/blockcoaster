@@ -11,6 +11,23 @@ import LearnAnimationScreen from '../screens/LearnAnimationScreen';
 const BottomTab = createBottomTabNavigator();
 
 const BottomTabStackNavigator = () => {
+  const getTabOptions = (
+    tab: 'Home' | 'Locations' | 'Episodes' | 'Settings',
+  ) => {
+    return {
+      tabBarLabel: tab,
+      title: tab,
+      tabBarActiveTintColor: '#000',
+      tabBarInactiveTintColor: '#C1C1C1',
+    };
+  };
+
+  // const getIcons = (focused: boolean, tab: string) => {
+  //   return (
+
+  //   )
+  // }
+
   return (
     <BottomTab.Navigator
       screenOptions={{
@@ -26,58 +43,54 @@ const BottomTabStackNavigator = () => {
       <BottomTab.Screen
         name="home"
         component={HomeScreen}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarActiveTintColor: '#fff',
-          tabBarInactiveTintColor: '#C1C1C1',
-          title: 'Home',
-          // eslint-disable-next-line react/no-unstable-nested-components
-          tabBarIcon: ({focused}) => {
-            return <Home stroke={focused ? '#fff' : '#C1C1C1C1'} />;
+        options={Object.assign(
+          {
+            // eslint-disable-next-line react/no-unstable-nested-components
+            tabBarIcon: ({focused}) => {
+              return <Home stroke={focused ? '#fff' : '#C1C1C1C1'} />;
+            },
           },
-        }}
+          getTabOptions('Home'),
+        )}
       />
       <BottomTab.Screen
         name="location"
-        component={LearnAnimationScreen}
-        options={{
-          tabBarLabel: 'Locations',
-          tabBarActiveTintColor: '#fff',
-          tabBarInactiveTintColor: '#C1C1C1',
-          title: 'Locations',
-          // eslint-disable-next-line react/no-unstable-nested-components
-          tabBarIcon: ({focused}) => {
-            return <Location stroke={focused ? '#fff' : '#C1C1C1C1'} />;
+        component={HomeScreen}
+        options={Object.assign(
+          {
+            // eslint-disable-next-line react/no-unstable-nested-components
+            tabBarIcon: ({focused}) => {
+              return <Location stroke={focused ? '#fff' : '#C1C1C1C1'} />;
+            },
           },
-        }}
+          getTabOptions('Home'),
+        )}
       />
       <BottomTab.Screen
         name="episode"
-        component={LearnAnimationScreen}
-        options={{
-          tabBarLabel: 'Episodes',
-          tabBarActiveTintColor: '#fff',
-          tabBarInactiveTintColor: '#C1C1C1',
-          title: 'Episodes',
-          // eslint-disable-next-line react/no-unstable-nested-components
-          tabBarIcon: ({focused}) => {
-            return <Episode stroke={focused ? '#fff' : '#C1C1C1C1'} />;
+        component={HomeScreen}
+        options={Object.assign(
+          {
+            // eslint-disable-next-line react/no-unstable-nested-components
+            tabBarIcon: ({focused}) => {
+              return <Episode stroke={focused ? '#fff' : '#C1C1C1C1'} />;
+            },
           },
-        }}
+          getTabOptions('Home'),
+        )}
       />
       <BottomTab.Screen
         name="setting"
         component={HomeScreen}
-        options={{
-          tabBarLabel: 'Settings',
-          tabBarActiveTintColor: '#fff',
-          tabBarInactiveTintColor: '#C1C1C1',
-          title: 'Settings',
-          // eslint-disable-next-line react/no-unstable-nested-components
-          tabBarIcon: ({focused}) => {
-            return <Setting stroke={focused ? '#fff' : '#C1C1C1C1'} />;
+        options={Object.assign(
+          {
+            // eslint-disable-next-line react/no-unstable-nested-components
+            tabBarIcon: ({focused}) => {
+              return <Setting stroke={focused ? '#fff' : '#C1C1C1C1'} />;
+            },
           },
-        }}
+          getTabOptions('Home'),
+        )}
       />
     </BottomTab.Navigator>
   );
