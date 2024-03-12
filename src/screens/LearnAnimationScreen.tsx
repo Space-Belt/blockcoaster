@@ -1,8 +1,12 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
+
 import {
   Alert,
+  Easing,
+  LayoutChangeEvent,
   SafeAreaView,
   StyleSheet,
+  Switch,
   Text,
   TextInput,
   View,
@@ -10,8 +14,10 @@ import {
 import FastImage from 'react-native-fast-image';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Animated, {
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
@@ -21,12 +27,26 @@ import Morty from '../assets/svg/mortie.svg';
 const DEFAULT_WIDTH = 0;
 const DEFAULT_DEGREE = 0;
 
+export interface LayoutRectangle {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 const LearnAnimationScreen = () => {
   const [moveCount, setMoveCount] = useState<string>('');
   const [rotateDegree, setRotateDegree] = useState<string>('');
+  const [firstSwitchOn, setFirstSwitchOn] = useState<boolean>(false);
+
+  // 오른쪽 왼쪽 만나는 애니메이션
+  const [kissContainerWidth, setKissContainerWidth] = useState<number>(0);
 
   const percentage = useSharedValue<number>(DEFAULT_WIDTH);
   const degrees = useSharedValue<number>(DEFAULT_DEGREE);
+
+  const leftMortie = useSharedValue<number>(0);
+  const rightMortie = useSharedValue<number>(0);
 
   const stretchAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -37,6 +57,18 @@ const LearnAnimationScreen = () => {
   const rotateAnimatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{rotate: `${degrees.value}deg`}],
+    };
+  });
+
+  const leftMortieAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      left: leftMortie.value,
+    };
+  });
+
+  const rightRickAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      right: rightMortie.value,
     };
   });
 
@@ -56,13 +88,42 @@ const LearnAnimationScreen = () => {
     }
   };
 
-  const handleMortieRotate = () => {};
+  const handleToggleSwitch = () => {
+    setFirstSwitchOn(prev => {
+      if (prev === true) {
+        rightMortie.value -= withTiming(kissContainerWidth, {
+          duration: 1000,
+        });
+        leftMortie.value -= withTiming(kissContainerWidth, {
+          duration: 1000,
+        });
+      } else if (prev === false) {
+        console.log(kissContainerWidth);
+        rightMortie.value = withTiming(kissContainerWidth - 51, {
+          duration: 1000,
+        });
+        leftMortie.value = withTiming(kissContainerWidth - 51, {
+          duration: 1000,
+        });
+      }
+      return !prev;
+    });
+  };
+
+  const onFirstContainerLayout = useCallback(
+    (nativeEvent: LayoutChangeEvent) => {
+      const {width} = nativeEvent.nativeEvent.layout;
+      setKissContainerWidth(width / 2 - 10);
+    },
+    [],
+  );
 
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.container}>
         <Text style={styles.headerText}>Learn Animation</Text>
         <View style={styles.rickContainer}>
+          {/* 오른쪽이동 */}
           <View style={styles.countMoveBox}>
             <TextInput
               value={moveCount}
@@ -81,6 +142,7 @@ const LearnAnimationScreen = () => {
               <Morty />
             </Animated.View>
           </View>
+          {/* 로테이트 */}
           <View style={styles.countMoveBox}>
             <TextInput
               value={rotateDegree}
@@ -96,6 +158,26 @@ const LearnAnimationScreen = () => {
           </View>
           <View style={styles.rotateBox}>
             <Animated.View style={rotateAnimatedStyle}>
+              <Morty />
+            </Animated.View>
+          </View>
+          {/* 가운데로 모으기 */}
+          <View style={styles.countMoveBox}>
+            <Switch
+              trackColor={{false: '#767577', true: '#81b0ff'}}
+              thumbColor={firstSwitchOn ? '#f5dd4b' : '#f4f3f4'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={handleToggleSwitch}
+              value={firstSwitchOn}
+            />
+          </View>
+          <View
+            style={styles.rickKissBox}
+            onLayout={(e: LayoutChangeEvent) => onFirstContainerLayout(e)}>
+            <Animated.View style={leftMortieAnimatedStyle}>
+              <Morty />
+            </Animated.View>
+            <Animated.View style={rightRickAnimatedStyle}>
               <Morty />
             </Animated.View>
           </View>
@@ -170,6 +252,17 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     justifyContent: 'center',
     position: 'relative',
+  },
+  rickKissBox: {
+    flexDirection: 'row',
+    width: '100%',
+    borderWidth: 2,
+    borderColor: '#EAEAEA',
+    height: 80,
+    borderRadius: 14,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    justifyContent: 'space-between',
   },
   rickHeadSvg: {
     ...StyleSheet.absoluteFillObject,
