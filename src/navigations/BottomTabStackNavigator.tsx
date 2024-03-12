@@ -50,7 +50,7 @@ const BottomTabStackNavigator = () => {
         getTabBarIcon(name, focused),
       tabBarLabel: name,
       title: name,
-      tabBarActiveTintColor: '#000',
+      tabBarActiveTintColor: '#fff',
       tabBarInactiveTintColor: '#C1C1C1',
     };
   };
@@ -59,7 +59,6 @@ const BottomTabStackNavigator = () => {
     <BottomTab.Navigator
       screenOptions={{
         headerShown: false,
-
         tabBarStyle: {
           height: 55,
           paddingBottom: 5,
@@ -68,48 +67,24 @@ const BottomTabStackNavigator = () => {
         },
       }}>
       <BottomTab.Screen
-        name="home"
-        component={HomeScreen}
-        options={Object.assign(
-          {
-            // eslint-disable-next-line react/no-unstable-nested-components
-            tabBarIcon: ({focused}) => {
-              return <Home stroke={focused ? '#fff' : '#C1C1C1C1'} />;
-            },
-          },
-          getTabOptions('Home'),
-        )}
-      />
-      <BottomTab.Screen
-        name="location"
-        component={HomeScreen}
-        options={Object.assign(
-          {
-            // eslint-disable-next-line react/no-unstable-nested-components
-            tabBarIcon: ({focused}) => {
-              return <Location stroke={focused ? '#fff' : '#C1C1C1C1'} />;
-            },
-          },
-          getTabOptions('Home'),
-        )}
-      />
-      <BottomTab.Screen
-        name="episode"
+        name="Home"
         component={HomeScreen}
         options={getTabOption}
       />
       <BottomTab.Screen
-        name="setting"
+        name="Locations"
         component={HomeScreen}
-        options={Object.assign(
-          {
-            // eslint-disable-next-line react/no-unstable-nested-components
-            tabBarIcon: ({focused}) => {
-              return <Setting stroke={focused ? '#fff' : '#C1C1C1C1'} />;
-            },
-          },
-          getTabOptions('Home'),
-        )}
+        options={getTabOption}
+      />
+      <BottomTab.Screen
+        name="Episodes"
+        component={HomeScreen}
+        options={getTabOption}
+      />
+      <BottomTab.Screen
+        name="Settings"
+        component={HomeScreen}
+        options={getTabOption}
       />
     </BottomTab.Navigator>
   );
