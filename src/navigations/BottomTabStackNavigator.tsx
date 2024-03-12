@@ -7,6 +7,7 @@ import Location from '../assets/svg/location.svg';
 import Episode from '../assets/svg/episode.svg';
 import Setting from '../assets/svg/setting.svg';
 import LearnAnimationScreen from '../screens/LearnAnimationScreen';
+import {ParamListBase, RouteProp} from '@react-navigation/native';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -22,11 +23,37 @@ const BottomTabStackNavigator = () => {
     };
   };
 
-  // const getIcons = (focused: boolean, tab: string) => {
-  //   return (
+  const getTabOption = (props: {
+    route: RouteProp<ParamListBase, string>;
+    navigation: any;
+  }) => {
+    const {route} = props;
+    const {name} = route;
 
-  //   )
-  // }
+    const getTabBarIcon = (name: string, focused: boolean) => {
+      switch (name) {
+        case 'Home':
+          return <Home stroke={focused ? '#fff' : '#C1C1C1C1'} />;
+        case 'Locations':
+          return <Location stroke={focused ? '#fff' : '#C1C1C1C1'} />;
+        case 'Episodes':
+          return <Episode stroke={focused ? '#fff' : '#C1C1C1C1'} />;
+        case 'Settings':
+          return <Setting stroke={focused ? '#fff' : '#C1C1C1C1'} />;
+        default:
+          return null;
+      }
+    };
+
+    return {
+      tabBarIcon: ({focused}: {focused: boolean}) =>
+        getTabBarIcon(name, focused),
+      tabBarLabel: name,
+      title: name,
+      tabBarActiveTintColor: '#000',
+      tabBarInactiveTintColor: '#C1C1C1',
+    };
+  };
 
   return (
     <BottomTab.Navigator
@@ -69,15 +96,7 @@ const BottomTabStackNavigator = () => {
       <BottomTab.Screen
         name="episode"
         component={HomeScreen}
-        options={Object.assign(
-          {
-            // eslint-disable-next-line react/no-unstable-nested-components
-            tabBarIcon: ({focused}) => {
-              return <Episode stroke={focused ? '#fff' : '#C1C1C1C1'} />;
-            },
-          },
-          getTabOptions('Home'),
-        )}
+        options={getTabOption}
       />
       <BottomTab.Screen
         name="setting"
