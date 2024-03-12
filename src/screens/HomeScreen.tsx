@@ -69,9 +69,8 @@ const HomeScreen = () => {
               source={greenCircle}
               style={[styles.circleStyle, tempStyle]}
             />
-            <Text style={styles.statusSpeciesText}>
+            <Text style={styles.statusSpeciesText} numberOfLines={1}>
               {item.status} - {item.species.slice(0, 12)}
-              {item.species.length > 13 ? '...' : ''}
             </Text>
           </View>
         </View>
