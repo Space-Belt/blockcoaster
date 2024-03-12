@@ -1,10 +1,11 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import {
   Alert,
   Easing,
   LayoutChangeEvent,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Switch,
   Text,
@@ -14,15 +15,15 @@ import {
 import FastImage from 'react-native-fast-image';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Animated, {
-  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import RickHead from '../assets/svg/rick.svg';
 import Morty from '../assets/svg/mortie.svg';
+import HorizontalMove from '../components/reanimated/HorizontalMove';
+import VerticalMove from '../components/reanimated/VerticalMove';
 
 const DEFAULT_WIDTH = 0;
 const DEFAULT_DEGREE = 0;
@@ -45,8 +46,7 @@ const LearnAnimationScreen = () => {
   const percentage = useSharedValue<number>(DEFAULT_WIDTH);
   const degrees = useSharedValue<number>(DEFAULT_DEGREE);
 
-  const leftMortie = useSharedValue<number>(0);
-  const rightMortie = useSharedValue<number>(0);
+  const positionMove = useSharedValue<number>(10);
 
   const stretchAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -60,17 +60,17 @@ const LearnAnimationScreen = () => {
     };
   });
 
-  const leftMortieAnimatedStyle = useAnimatedStyle(() => {
-    return {
-      left: leftMortie.value,
-    };
-  });
-
-  const rightRickAnimatedStyle = useAnimatedStyle(() => {
-    return {
-      right: rightMortie.value,
-    };
-  });
+  const kissAnimatedStyle = (direction: string) =>
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useAnimatedStyle(() => {
+      return direction === 'left'
+        ? {
+            left: positionMove.value,
+          }
+        : {
+            right: positionMove.value,
+          };
+    });
 
   const handleTextInput = (text: string, type: string) => {
     if (type === 'first') {
@@ -89,26 +89,17 @@ const LearnAnimationScreen = () => {
   };
 
   const handleToggleSwitch = () => {
-    setFirstSwitchOn(prev => {
-      if (prev === true) {
-        rightMortie.value -= withTiming(kissContainerWidth, {
-          duration: 1000,
-        });
-        leftMortie.value -= withTiming(kissContainerWidth, {
-          duration: 1000,
-        });
-      } else if (prev === false) {
-        console.log(kissContainerWidth);
-        rightMortie.value = withTiming(kissContainerWidth - 51, {
-          duration: 1000,
-        });
-        leftMortie.value = withTiming(kissContainerWidth - 51, {
-          duration: 1000,
-        });
-      }
-      return !prev;
-    });
+    setFirstSwitchOn(prev => !prev);
   };
+
+  useEffect(() => {
+    positionMove.value = withTiming(
+      firstSwitchOn ? kissContainerWidth - 51 : 10,
+      {
+        duration: 1000,
+      },
+    );
+  }, [firstSwitchOn]);
 
   const onFirstContainerLayout = useCallback(
     (nativeEvent: LayoutChangeEvent) => {
@@ -118,71 +109,79 @@ const LearnAnimationScreen = () => {
     [],
   );
 
+  React.useEffect(() => {}, []);
+
   return (
     <SafeAreaView style={styles.wrapper}>
-      <View style={styles.container}>
-        <Text style={styles.headerText}>Learn Animation</Text>
-        <View style={styles.rickContainer}>
-          {/* 오른쪽이동 */}
-          <View style={styles.countMoveBox}>
-            <TextInput
-              value={moveCount}
-              onChangeText={(text: string) => handleTextInput(text, 'first')}
-              style={styles.textInputStyle}
-            />
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.headerText}>Learn Animation</Text>
+          <View style={styles.rickContainer}>
+            {/* 오른쪽이동 */}
+            <View style={styles.countMoveBox}>
+              <TextInput
+                value={moveCount}
+                onChangeText={(text: string) => handleTextInput(text, 'first')}
+                style={styles.textInputStyle}
+              />
+              <TouchableOpacity
+                onPress={() => handleMortieMove('right')}
+                style={styles.increaseCountBtn}>
+                <Text style={styles.increaseCountBtnText}>Move</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.rickHeadBox}>
+              <Animated.View style={stretchAnimatedStyle}>
+                <Morty />
+              </Animated.View>
+            </View>
+            {/* 로테이트 */}
+            <View style={styles.countMoveBox}>
+              <TextInput
+                value={rotateDegree}
+                onChangeText={(text: string) => handleTextInput(text, 'second')}
+                style={styles.textInputStyle}
+              />
 
-            <TouchableOpacity
-              onPress={() => handleMortieMove('right')}
-              style={styles.increaseCountBtn}>
-              <Text style={styles.increaseCountBtnText}>Move</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.rickHeadBox}>
-            <Animated.View style={stretchAnimatedStyle}>
-              <Morty />
-            </Animated.View>
-          </View>
-          {/* 로테이트 */}
-          <View style={styles.countMoveBox}>
-            <TextInput
-              value={rotateDegree}
-              onChangeText={(text: string) => handleTextInput(text, 'second')}
-              style={styles.textInputStyle}
-            />
-
-            <TouchableOpacity
-              onPress={() => handleMortieMove('rotate')}
-              style={styles.increaseCountBtn}>
-              <Text style={styles.increaseCountBtnText}>Rotate</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.rotateBox}>
-            <Animated.View style={rotateAnimatedStyle}>
-              <Morty />
-            </Animated.View>
-          </View>
-          {/* 가운데로 모으기 */}
-          <View style={styles.countMoveBox}>
-            <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={firstSwitchOn ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={handleToggleSwitch}
-              value={firstSwitchOn}
-            />
-          </View>
-          <View
-            style={styles.rickKissBox}
-            onLayout={(e: LayoutChangeEvent) => onFirstContainerLayout(e)}>
-            <Animated.View style={leftMortieAnimatedStyle}>
-              <Morty />
-            </Animated.View>
-            <Animated.View style={rightRickAnimatedStyle}>
-              <Morty />
-            </Animated.View>
+              <TouchableOpacity
+                onPress={() => handleMortieMove('rotate')}
+                style={styles.increaseCountBtn}>
+                <Text style={styles.increaseCountBtnText}>Rotate</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.rotateBox}>
+              <Animated.View style={rotateAnimatedStyle}>
+                <Morty />
+              </Animated.View>
+            </View>
+            {/* 가운데로 모으기 */}
+            <View style={styles.countMoveBox}>
+              <Switch
+                trackColor={{false: '#767577', true: '#81b0ff'}}
+                thumbColor={firstSwitchOn ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={handleToggleSwitch}
+                value={firstSwitchOn}
+              />
+            </View>
+            <View
+              style={styles.rickKissBox}
+              onLayout={(e: LayoutChangeEvent) => onFirstContainerLayout(e)}>
+              <Animated.View
+                style={[styles.leftRickIcon, kissAnimatedStyle('left')]}>
+                <Morty />
+              </Animated.View>
+              <Animated.View
+                style={[styles.rightRickIcon, kissAnimatedStyle('right')]}>
+                <Morty />
+              </Animated.View>
+            </View>
+            {/* 가로 움직임 */}
+            <HorizontalMove />
+            <VerticalMove />
           </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -255,16 +254,25 @@ const styles = StyleSheet.create({
   },
   rickKissBox: {
     flexDirection: 'row',
-    width: '100%',
+    height: 80,
     borderWidth: 2,
     borderColor: '#EAEAEA',
-    height: 80,
     borderRadius: 14,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   rickHeadSvg: {
     ...StyleSheet.absoluteFillObject,
+  },
+  leftRickIcon: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    left: 10,
+  },
+  rightRickIcon: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 10,
   },
 });
