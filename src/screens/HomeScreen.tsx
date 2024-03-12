@@ -29,6 +29,7 @@ export type RootStackParamList = {
 const windowWidth = Dimensions.get('window').width;
 const imgWidth = (windowWidth - 90) / 2;
 const cardWidth = (windowWidth - 50) / 2;
+
 const HomeScreen = () => {
   const navigation = useNavigation();
 
@@ -44,6 +45,15 @@ const HomeScreen = () => {
       },
     });
   };
+
+  const handleStatusColor = (status: string) => {
+    if (status === 'Dead' || status === 'unknown') {
+      return '#fff';
+    } else {
+      return '#8CD790';
+    }
+  };
+
   const renderList = ({item}: {item: ICharacter}) => {
     return (
       <TouchableOpacity onPress={() => handleNavigate(item.id)}>
@@ -59,15 +69,12 @@ const HomeScreen = () => {
                 styles.circleStyle,
                 // eslint-disable-next-line react-native/no-inline-styles
                 {
-                  tintColor:
-                    item.status === 'Dead' || item.status === 'unknown'
-                      ? '#fff'
-                      : '#8CD790',
+                  tintColor: handleStatusColor(item.status),
                 },
               ]}
             />
             <Text style={styles.statusSpeciesText} numberOfLines={1}>
-              {item.status} - {item.species.slice(0, 12)}
+              {item.status} - {item.species}
             </Text>
           </View>
         </View>
