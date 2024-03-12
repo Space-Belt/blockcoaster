@@ -12,17 +12,6 @@ import {ParamListBase, RouteProp} from '@react-navigation/native';
 const BottomTab = createBottomTabNavigator();
 
 const BottomTabStackNavigator = () => {
-  const getTabOptions = (
-    tab: 'Home' | 'Locations' | 'Episodes' | 'Settings',
-  ) => {
-    return {
-      tabBarLabel: tab,
-      title: tab,
-      tabBarActiveTintColor: '#000',
-      tabBarInactiveTintColor: '#C1C1C1',
-    };
-  };
-
   const getTabOption = (props: {
     route: RouteProp<ParamListBase, string>;
     navigation: any;
