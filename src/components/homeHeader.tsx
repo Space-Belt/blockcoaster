@@ -29,7 +29,7 @@ const HomeHeader = ({
           placeholderTextColor={'#CCCCCC'}
           placeholder="Please enter a searchTerm"
         />
-        <TouchableOpacity onPress={props.handleSearchBySearchTerm}>
+        <TouchableOpacity onPress={handleSearchBySearchTerm}>
           <SearchIcon stroke={'#fff'} />
         </TouchableOpacity>
       </View>
