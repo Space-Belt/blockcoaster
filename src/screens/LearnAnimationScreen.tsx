@@ -19,11 +19,14 @@ import RickHead from '../assets/svg/rick.svg';
 import Morty from '../assets/svg/mortie.svg';
 
 const DEFAULT_WIDTH = 0;
+const DEFAULT_DEGREE = 0;
 
 const LearnAnimationScreen = () => {
   const [moveCount, setMoveCount] = useState<string>('');
+  const [rotateDegree, setRotateDegree] = useState<string>('');
 
   const percentage = useSharedValue<number>(DEFAULT_WIDTH);
+  const degrees = useSharedValue<number>(DEFAULT_DEGREE);
 
   const stretchAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -31,13 +34,29 @@ const LearnAnimationScreen = () => {
     };
   });
 
-  const handleTextInput = (text: string) => {
-    setMoveCount(text);
+  const rotateAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{rotate: `${degrees.value}deg`}],
+    };
+  });
+
+  const handleTextInput = (text: string, type: string) => {
+    if (type === 'first') {
+      setMoveCount(text);
+    } else if (type === 'second') {
+      setRotateDegree(text);
+    }
   };
 
-  const handleMortieMove = () => {
-    percentage.value = withTiming(Number(moveCount));
+  const handleMortieMove = (movement: string) => {
+    if (movement === 'right') {
+      percentage.value = withTiming(Number(moveCount));
+    } else if (movement === 'rotate') {
+      degrees.value = withSpring(Number(rotateDegree));
+    }
   };
+
+  const handleMortieRotate = () => {};
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -47,18 +66,36 @@ const LearnAnimationScreen = () => {
           <View style={styles.countMoveBox}>
             <TextInput
               value={moveCount}
-              onChangeText={handleTextInput}
+              onChangeText={(text: string) => handleTextInput(text, 'first')}
               style={styles.textInputStyle}
             />
 
             <TouchableOpacity
-              onPress={handleMortieMove}
+              onPress={() => handleMortieMove('right')}
               style={styles.increaseCountBtn}>
               <Text style={styles.increaseCountBtnText}>Move</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.rickHeadBox}>
             <Animated.View style={stretchAnimatedStyle}>
+              <Morty />
+            </Animated.View>
+          </View>
+          <View style={styles.countMoveBox}>
+            <TextInput
+              value={rotateDegree}
+              onChangeText={(text: string) => handleTextInput(text, 'second')}
+              style={styles.textInputStyle}
+            />
+
+            <TouchableOpacity
+              onPress={() => handleMortieMove('rotate')}
+              style={styles.increaseCountBtn}>
+              <Text style={styles.increaseCountBtnText}>Rotate</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.rotateBox}>
+            <Animated.View style={rotateAnimatedStyle}>
               <Morty />
             </Animated.View>
           </View>
@@ -71,6 +108,10 @@ const LearnAnimationScreen = () => {
 export default LearnAnimationScreen;
 
 const styles = StyleSheet.create({
+  rotateBox: {
+    width: 51,
+    height: 51,
+  },
   wrapper: {
     flex: 1,
     backgroundColor: '#0A0A0A',
@@ -83,9 +124,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     color: 'white',
+    marginBottom: 20,
   },
   rickContainer: {
     flex: 1,
+    gap: 20,
   },
   countMoveBox: {
     flexDirection: 'row',
