@@ -36,38 +36,35 @@ const HomeScreen = () => {
     return `${JSON.stringify(item)}-${index}`;
   };
 
+  const handleNavigate = (id: number) => {
+    navigation.navigate('MainStack', {
+      screen: 'CharacterDetail',
+      params: {
+        id: id,
+      },
+    });
+  };
   const renderList = ({item}: {item: ICharacter}) => {
-    let tempStyle = {
-      tintColor:
-        item.status === 'Dead' || item.status === 'unknown'
-          ? '#fff'
-          : '#8CD790',
-    };
-
-    let tempWidth = {
-      width: cardWidth,
-    };
-
     return (
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('MainStack', {
-            screen: 'CharacterDetail',
-            params: {
-              id: item.id,
-            },
-          });
-        }}>
-        <View style={[styles.renderListStyle, tempWidth]}>
+      <TouchableOpacity onPress={() => handleNavigate(item.id)}>
+        <View style={[styles.renderListStyle, {width: cardWidth}]}>
           <FastImage source={{uri: item.image}} style={styles.cardImgStyle} />
-          <Text style={styles.nameText}>
-            {item.name.slice(0, 13)}
-            {item.name.length > 13 ? '...' : ''}
+          <Text style={styles.nameText} numberOfLines={1}>
+            {item.name}
           </Text>
           <View style={styles.statusSpeciesWrapper}>
             <FastImage
               source={greenCircle}
-              style={[styles.circleStyle, tempStyle]}
+              style={[
+                styles.circleStyle,
+                // eslint-disable-next-line react-native/no-inline-styles
+                {
+                  tintColor:
+                    item.status === 'Dead' || item.status === 'unknown'
+                      ? '#fff'
+                      : '#8CD790',
+                },
+              ]}
             />
             <Text style={styles.statusSpeciesText} numberOfLines={1}>
               {item.status} - {item.species.slice(0, 12)}
