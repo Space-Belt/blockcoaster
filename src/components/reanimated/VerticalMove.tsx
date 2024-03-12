@@ -3,6 +3,7 @@ import {StyleSheet, Switch, View} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
@@ -27,9 +28,10 @@ const VerticalMove = () => {
   });
 
   React.useEffect(() => {
-    position.value = withSpring(switchStatus ? 100 : 0, {
-      duration: 2500,
-    });
+    // position.value = withSpring(switchStatus ? 100 : 0, {
+    //   duration: 5000,
+    // });
+    position.value = withDelay(500, withSpring(switchStatus ? 100 : 0));
   }, [switchStatus]);
 
   return (
