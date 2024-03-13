@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 import {
   Alert,
@@ -24,6 +24,7 @@ import RickHead from '../assets/svg/rick.svg';
 import Morty from '../assets/svg/mortie.svg';
 import HorizontalMove from '../components/reanimated/HorizontalMove';
 import VerticalMove from '../components/reanimated/VerticalMove';
+import AnimatedTest from '../components/reanimated/AnimatedTest';
 
 const DEFAULT_WIDTH = 0;
 const DEFAULT_DEGREE = 0;
@@ -116,6 +117,7 @@ const LearnAnimationScreen = () => {
       <ScrollView>
         <View style={styles.container}>
           <Text style={styles.headerText}>Learn Animation</Text>
+          <AnimatedTest />
           <View style={styles.rickContainer}>
             {/* 오른쪽이동 */}
             <View style={styles.countMoveBox}>
