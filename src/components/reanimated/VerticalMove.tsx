@@ -28,9 +28,6 @@ const VerticalMove = () => {
   });
 
   React.useEffect(() => {
-    // position.value = withSpring(switchStatus ? 100 : 0, {
-    //   duration: 5000,
-    // });
     position.value = withDelay(500, withSpring(switchStatus ? 100 : 0));
   }, [switchStatus]);
 
