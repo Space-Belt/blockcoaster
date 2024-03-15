@@ -8,6 +8,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import Morty from '../../assets/svg/mortie.svg';
 
+const ICON_WIDTH: number = 71;
+
 const HorizontalMove = () => {
   const position = useSharedValue<number>(0);
   const [switchStatus, setSwitchStatus] = React.useState(false);
@@ -19,7 +21,7 @@ const HorizontalMove = () => {
   const moveAnimatedStyle = useAnimatedStyle(() => {
     return {
       left: `${position.value}%`,
-      transform: [{translateX: (-71 * position.value) / 100}],
+      transform: [{translateX: (-ICON_WIDTH * position.value) / 100}],
     };
   });
 
