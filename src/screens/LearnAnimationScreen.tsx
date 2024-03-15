@@ -26,17 +26,19 @@ import HorizontalMove from '../components/reanimated/HorizontalMove';
 import VerticalMove from '../components/reanimated/VerticalMove';
 import AnimatedTest from '../components/reanimated/AnimatedTest';
 
-const DEFAULT_WIDTH = 0;
-const DEFAULT_DEGREE = 0;
-
 export interface LayoutRectangle {
   x: number;
   y: number;
   width: number;
   height: number;
 }
+const DEFAULT_PADDING = 10;
+const IMG_WIDTH = 51;
 
 const LearnAnimationScreen = () => {
+  const DEFAULT_WIDTH = 0;
+  const DEFAULT_DEGREE = 0;
+
   const [moveCount, setMoveCount] = useState<string>('');
   const [rotateDegree, setRotateDegree] = useState<string>('');
   const [firstSwitchOn, setFirstSwitchOn] = useState<boolean>(false);
@@ -61,7 +63,7 @@ const LearnAnimationScreen = () => {
     };
   });
 
-  const kissAnimatedStyle = (direction: string) =>
+  const kissAnimatedStyle = (direction: 'left' | 'right') =>
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useAnimatedStyle(() => {
       return direction === 'left'
@@ -95,7 +97,7 @@ const LearnAnimationScreen = () => {
 
   useEffect(() => {
     positionMove.value = withTiming(
-      firstSwitchOn ? kissContainerWidth - 51 : 10,
+      firstSwitchOn ? kissContainerWidth - IMG_WIDTH : DEFAULT_PADDING,
       {
         duration: 1000,
       },
@@ -105,12 +107,10 @@ const LearnAnimationScreen = () => {
   const onFirstContainerLayout = useCallback(
     (nativeEvent: LayoutChangeEvent) => {
       const {width} = nativeEvent.nativeEvent.layout;
-      setKissContainerWidth(width / 2 - 10);
+      setKissContainerWidth(width / 2 - DEFAULT_PADDING);
     },
     [],
   );
-
-  React.useEffect(() => {}, []);
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -192,8 +192,8 @@ export default LearnAnimationScreen;
 
 const styles = StyleSheet.create({
   rotateBox: {
-    width: 51,
-    height: 51,
+    width: IMG_WIDTH,
+    height: IMG_WIDTH,
   },
   wrapper: {
     flex: 1,
